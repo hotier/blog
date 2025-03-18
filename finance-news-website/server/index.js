@@ -3,6 +3,12 @@ import mongoose from 'mongoose';
 import authRoutes from './routes/auth.js';
 import 'dotenv/config';
 
+// 错误处理中间件
+const errorHandler = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: '服务器内部错误', error: err.message });
+};
+
 const app = express();
 app.use(express.json());
 
@@ -13,7 +19,15 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/finance_n
 // 路由配置
 app.use('/api/auth', authRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`服务器运行在端口 ${PORT}`);
+// 错误处理中间件必须在所有路由之后
+app.use(errorHandler);
+
+// 处理未找到的路由
+app.use((req, res) => {
+  res.status(404).json({ message: '未找到请求的资源' });
+});
+
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`服务器运行在 http://localhost:${PORT}`);
 });

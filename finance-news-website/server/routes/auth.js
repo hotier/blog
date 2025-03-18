@@ -19,12 +19,7 @@ router.post('/register', async (req, res) => {
     if (!req.body.username || !req.body.password) {
       return res.status(400).json({ message: '用户名和密码不能为空' });
     }
-    // 对密码进行加密
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-
-    // 触发密码加密中间件
-    await user.save({ validateBeforeSave: true });
+    await user.save();
     res.status(201).json({ message: '注册成功' });
   } catch (error) {
     res.status(500).json({ message: error.message });

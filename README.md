@@ -92,7 +92,7 @@
 - 后端：AWS EC2
 - 数据库：MongoDB Atlas
 
-## 技术实现路线
+## 技术实现详情
 1. **前端开发**
    - 使用Vue 3框架构建用户界面
      - 通过Vue Router配置多级路由：
@@ -135,11 +135,8 @@
      // 分类接口
      router.get('/categories', categoryController.list);
      ```
-   - 使用MongoDB存储数据
-   - 使用Swagger生成API文档
-
-2. **后端开发**
-   - 使用Node.js和Express框架构建RESTful API：
+   
+   - 接口实现示例：
      ```javascript
      // 新闻接口实现
      exports.list = async (req, res) => {
@@ -169,6 +166,8 @@
        res.status(500).send('服务器内部错误');
      });
      ```
+   - 使用MongoDB存储数据
+   - 使用Swagger生成API文档
 
 3. **数据库设计**
    - 新闻数据模型定义：

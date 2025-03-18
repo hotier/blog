@@ -1,40 +1,72 @@
 <script setup>
 import { ref } from 'vue'
-import NewsList from './components/NewsList.vue'
+import NewsList from '@/views/NewsList.vue'
 
 const categories = ['全部', '股票', '基金', '债券']
 const selectedCategory = ref('全部')
 </script>
 
 <template>
-  <nav class="navbar">
-    <h1>财经新闻</h1>
-    <div class="filter-buttons">
-      <button 
-        v-for="category in categories"
-        :key="category"
-        @click="selectedCategory = category"
-        :class="{ active: selectedCategory === category }"
-      >
-        {{ category }}
-      </button>
-    </div>
-  </nav>
-  <NewsList :category="selectedCategory" />
+  <div id="app">
+    <!-- 导航栏部分 -->
+    <el-header class="main-header">
+      <div class="header-content">
+        <div class="logo-container">
+          <img src="./assets/logo.png" class="logo">
+          <h1>财经新闻</h1>
+        </div>
+        <div class="filter-buttons">
+          <button 
+            v-for="category in categories"
+            :key="category"
+            @click="selectedCategory = category"
+            :class="{ active: selectedCategory === category }"
+          >
+            {{ category }}
+          </button>
+        </div>
+        <div class="auth-buttons">
+          <el-button type="primary" @click="goToAuth('login')">登录</el-button>
+          <el-button @click="goToAuth('register')">注册</el-button>
+        </div>
+      </div>
+    </el-header>
+  </div>
 </template>
 
-<style>
-.navbar {
-  background-image: url('https://images.unsplash.com/photo-1638913662380-9799def8ffb1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
-  background-size: cover;
-  background-position: center;
-  padding: 1rem;
-  color: black;
-  background-color: rgba(255, 255, 255, 0.9);
+<script setup>
+import { useRouter } from 'vue-router'
 
-  padding: 1rem;
-  background: #f8f9fa;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+const router = useRouter()
+
+const goToAuth = (mode) => {
+  router.push({ path: '/auth', query: { mode } })
+}
+</script>
+
+<style scoped>
+.main-header {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .filter-buttons {
@@ -55,3 +87,5 @@ button.active {
   color: white;
 }
 </style>
+
+<NewsList :category="selectedCategory" />

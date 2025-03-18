@@ -7,13 +7,14 @@ export default createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/components/NewsList.vue'),
+      component: () => import('@/views/NewsList.vue'),
       props: { category: '全部' }
     },
     {
       path: '/news/:id',
       component: NewsDetail,
       props: true
-    }
+    },
+    { path: '/search', component: () => import('@/views/SearchView.vue') }
   ]
 })
